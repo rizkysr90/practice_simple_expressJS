@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "name": "Arlingga Cahya Ramdhana",
+        "username": "lingga112",
+        "age": 20,
+        "position": "Network Programmer"
+    },
+    {
+        "id": 2,
+        "name": "Gemma Dwi Prasetya",
+        "username": "Gemma-dev",
+        "age": 19,
+        "position": "Unity Engineer"
+    },
+    {
+        "id": 3,
+        "name": "Nely Dwi Agustin",
+        "username": "Nee-chan",
+        "age": 20,
+        "position": ".NET Developer"
+    }
+]
