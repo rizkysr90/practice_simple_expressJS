@@ -26,5 +26,12 @@
         "username": "rizkysr90",
         "age": 20,
         "position": "Javascript Enjoyer"
+    },
+    {
+        "id": 5,
+        "name": "Rizki Susilo Ramadhan",
+        "username": "rizksr901",
+        "age": 20,
+        "position": "Javascript Enjoyer"
     }
 ]

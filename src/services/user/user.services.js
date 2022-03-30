@@ -1,4 +1,4 @@
-const userData = require('./../../../users.json');
+let userData = require('./../../../users.json');
 const fs = require('fs').promises;
 
 function getAllData() {
@@ -24,18 +24,27 @@ function getAllData() {
 }
 async function createData(resBody) {
     // VALIDASI resBody
-    if (resBody.name === undefined || resBody.name === '' ||
-       resBody.username === undefined || resBody.username === '' ||
-       resBody.age === undefined || resBody.age === 0 ||
-       resBody.position === undefined || resBody.position === '') 
-    {
+    if (resBody.name === undefined || resBody.name === '') {
         Error.statusCode = 400;
-        throw new Error('Bad Request - Please Check Your Input');
+        throw new Error('Bad Request - Nama wajib diisi saat menambahkan data');
     }
-    // Grouping new data user with id,the id start from one
+    if (resBody.username === undefined || resBody.username === '') {
+        Error.statusCode = 400;
+        throw new Error('Bad Request - Username wajib diisi saat menambahkan data');
+    }
+    if (resBody.age === undefined || resBody.age === '') {
+        Error.statusCode = 400;
+        throw new Error('Bad Request - Umur wajib diisi saat menambahkan data');
+    }
+    if (resBody.position === undefined || resBody.position === '') {
+        Error.statusCode = 400;
+        throw new Error('Bad Request - Posisi Pekerjaan wajib diisi saat menambahkan data');
+    }
+    
+    // Grouping new data user with id,the id start from 1
     const newUserData = {id : 1,...resBody};
 
-    //Auto Increment Id,if userData is null,so user id will be 1
+    //Auto Increment for Id,if userData is null (or length = 0),so user id will be 1
     //otherwise,we will find the last element array
     //accessing the object and get id
     //increment by 1
