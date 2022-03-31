@@ -1,4 +1,5 @@
 let userData = require('./../../../users.json');
+const userValidator = require('../../validators/user.validator');
 const fs = require('fs').promises;
 
 function getAllData() {
@@ -22,32 +23,12 @@ function getAllData() {
         throw new Error(`Internal Server Error`);
     }
 }
-async function createData(resBody) {
-    // VALIDASI resBody
-    if (resBody.name === undefined || resBody.name === '') {
-        Error.statusCode = 400;
-        throw new Error('Bad Request - Nama wajib diisi saat menambahkan data');
-    }
-    if (resBody.username === undefined || resBody.username === '') {
-        Error.statusCode = 400;
-        throw new Error('Bad Request - Username wajib diisi saat menambahkan data');
-    }
-    if (resBody.age === undefined || resBody.age === '') {
-        Error.statusCode = 400;
-        throw new Error('Bad Request - Umur wajib diisi saat menambahkan data');
-    }
-    if (resBody.position === undefined || resBody.position === '') {
-        Error.statusCode = 400;
-        throw new Error('Bad Request - Posisi Pekerjaan wajib diisi saat menambahkan data');
-    }
-    
+async function createData(reqBody) {
+    // VALIDASI reqBody
+    userValidator.createNewData(reqBody);
+    const idForNewData = userData.length + 1;
     // Grouping new data user with id,the id start from 1
-    const newUserData = {id : 1,...resBody};
-
-    //Auto Increment for Id,if userData is null (or length = 0),so user id will be 1
-    //otherwise,we will find the last element array
-    //accessing the object and get id
-    //increment by 1
+    const newUserData = {id : idForNewData,...reqBody};
     if (userData.length > 0) {
         newUserData.id = userData[userData.length - 1].id + 1;
     }
@@ -57,15 +38,61 @@ async function createData(resBody) {
         const baseResponse = {
             code : 201,
             message : 'Created -  request has succeeded and a new resource has been created as a result',
-            data : newUserData
+            data : newUserData.id
         };
         return baseResponse;
     } catch(err) {
         console.log(err);
     }
 }
+async function updateData({userId},reqBody) {
+    // Find user index in the user data array
+    const userIndex = userValidator.findUser(userData,userId);
+    // validate befor updating data
+    userValidator.checkBeforeUpdate(reqBody);
+    userData[userIndex] = {...userData[userIndex],...reqBody};
+    try {
+        await fs.writeFile('users.json',JSON.stringify(userData,null,4));
+        const baseResponse = {
+            code : 200,
+            message : 'OK -  Data has been updated',
+            data : userData[userIndex].id
+        };
+        return baseResponse;
+    } catch(err) {
+        console.log(err);
+    }
+}
+async function deleteData({userId}) {
+    userValidator.findUser(userData,userId);
+    userData = userData.filter((elm) => elm.id !== Number(userId));
+    try {
+        await fs.writeFile('users.json',JSON.stringify(userData,null,4));
+        const baseResponse = {
+            code : 200,
+            message : 'OK -  Data has been deleted',
+            data : userId
+        };
+        return baseResponse;
+    } catch(err) {
+        console.log(err);
+    }
+}
+function getById({userId}) {
+    const userIndex = userValidator.findUser(userData,userId);
+    const baseResponse = {
+        code : 200,
+        message : 'OK - Request has succeeded',
+        data : userData[userIndex]
+    };
 
+    return baseResponse;
+
+}
 module.exports = {
     getAllData,
-    createData
+    createData,
+    updateData,
+    deleteData,
+    getById
 }

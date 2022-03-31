@@ -4,34 +4,13 @@
         "name": "Arlingga Cahya Ramdhana",
         "username": "lingga112",
         "age": 20,
-        "position": "Network Programmer"
-    },
-    {
-        "id": 2,
-        "name": "Gemma Dwi Prasetya",
-        "username": "Gemma-dev",
-        "age": 19,
-        "position": "Unity Engineer"
+        "position": "Moba Analog Enjoyer"
     },
     {
         "id": 3,
         "name": "Nely Dwi Agustin",
         "username": "Nee-chan",
         "age": 20,
-        "position": ".NET Developer"
-    },
-    {
-        "id": 4,
-        "name": "Rizki Susilo Ramadhan",
-        "username": "rizkysr90",
-        "age": 20,
-        "position": "Javascript Enjoyer"
-    },
-    {
-        "id": 5,
-        "name": "Rizki Susilo Ramadhan",
-        "username": "rizksr901",
-        "age": 20,
-        "position": "Javascript Enjoyer"
+        "position": "Anime Enjoyer"
     }
 ]
